@@ -1,3 +1,5 @@
+const User =require('../models/user');
+
 //Rending the Profile page of the user
 module.exports.profile=function(req,res){
     return res.render('user_profile',{
@@ -22,8 +24,25 @@ module.exports.signUp=function(req,res){
 }
 
 
-module.exports.create=function(req,res){
-    //To Do later
+module.exports.create=async function(req,res){
+    try{
+        if(req.body.password != req.body.cofirm_password){
+            return res.redirect('back');
+        }
+
+        let user = await User.findOne({email:req.body.email});
+        if (!user) {
+            const newUser = await User.create(req.body);
+            return res.redirect('/users/sign-in');
+          } else {
+            return res.redirect('back');
+          }
+
+    }catch(err){
+        console.error('Error in creating user:', err);
+        return res.redirect('back');
+
+    }
 }
 
 

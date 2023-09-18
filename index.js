@@ -8,6 +8,7 @@ const db=require('./config/mongoose');
 
 
 app.use(express.urlencoded());
+//Telling the app to use cookies for authentication 
 app.use(cookiePasser());
 
 
