@@ -1,8 +1,14 @@
 const express=require('express');
+const cookiePasser=require('cookie-parser');
 const port=8000;
 const app=express();
 const expressLayouts=require('express-ejs-layouts');
 const db=require('./config/mongoose');
+
+
+
+app.use(express.urlencoded());
+app.use(cookiePasser());
 
 
 //telling the use the static file from assets folder 
