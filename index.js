@@ -4,6 +4,9 @@ const app=express();
 const expressLayouts=require('express-ejs-layouts');
 
 
+//telling the use the static file from assets folder 
+app.use(express.static('./assets'));
+
 //telling the app to use layouts
 app.use(expressLayouts);
 
