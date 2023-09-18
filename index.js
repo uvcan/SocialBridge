@@ -10,6 +10,11 @@ app.use(express.static('./assets'));
 //telling the app to use layouts
 app.use(expressLayouts);
 
+//Extract styles and scripts for layots for sub pages 
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
+
+
 
 
 //use express router which acs as a middleware
