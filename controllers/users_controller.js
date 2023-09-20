@@ -9,6 +9,9 @@ module.exports.profile=function(req,res){
 
 //Rendering the SighIn page of the user
 module.exports.signIn=function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in',{
         title:"SignIn"
     });
@@ -18,6 +21,9 @@ module.exports.signIn=function(req,res){
 
 //Rendering the sigh Up page of the user
 module.exports.signUp=function(req,res){
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up',{
         title:"SignUp"
     });
