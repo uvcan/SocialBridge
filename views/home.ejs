@@ -4,8 +4,28 @@
 
 <section>
     <h4>Post</h4>
+    <%if(locals.user){%>
     <form action="/posts/create" method="post">
         <textarea name="content"  cols="30" rows="5" placeholder="Type her ..."></textarea>
         <input type="submit" value="Post">
     </form>
+    <%}%>
+    <div id="posts-list-container">
+        <ul>
+            <% for(post of post){ %>
+                
+            <li>
+                <p>
+                    <%= post.content %>
+                    <br>
+                    <small>
+                        <%= post.user.name %>
+                    </small>
+                </p>
+                
+            </li>
+                
+            <%} %>
+        </ul>
+    </div>
 </section>
