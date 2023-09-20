@@ -56,3 +56,11 @@ module.exports.create=async function(req,res){
 module.exports.createSession=function(req,res){
    return res.redirect('/');
 }
+
+module.exports.destroySession=function(req,res){
+    req.logout(function(err){
+        console.log('Error in logging out');
+    });
+
+    return res.redirect('/');
+}
