@@ -1,32 +1,38 @@
- <h1>
-    Home Page | <%=title%>
-</h1>
+<link rel="stylesheet" href="/css/home.css">
 
-<section>
-    <h4>Post</h4>
-    <%if(locals.user){%>
-    <form action="/posts/create" method="post">
-        <textarea name="content"  cols="30" rows="3" placeholder="Type her ..." required></textarea>
-        <input type="submit" value="Post">
-    </form>
-    <%}%>
-    <div id="posts-list-container">
-        <ul>
-            <% for(post of post){ %>
-                
-                <%- include('_post');%>
-                
+<div id="home-container">
+    <section id="feed-posts">
+            <h4>Posts</h4>
+            <% if(locals.user){ %>
+            <form action="/posts/create" id="new-post-form" method="POST">
+                <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+                <input type="submit" value="Post">
+            </form>
             <% } %>
-        </ul>
         
-    </div>
-</section>
+            <div id="posts-list-container">
+                <ul>
+                    <% for(post of post){ %>
+                        
+                    <%- include('_post') -%>
+                        
+                    <%} %>
+                </ul>
+            </div>
+        </section>
+        
+        
+        <section id="user-friends">
+            <h4>Friends</h4>
+            <% for(u of all_users){%>
+                <p>
+                    <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+                </p>
+            <% } %>
+        </section>
+</div>
 
-<section>
-    <h4>Friends</h4>
-    <%for(u of all_users){%>
-        <p>
-            <a href="/users/profile/<%=u.id%>"><%=u.name%></a>
-        </p>
-    <%}%>    
-</section>
+<!-- importing this script for creating the comments -->
+<script src="/js/home_post_comments.js" ></script>
+<script src="/js/home_posts.js"></script>
+
