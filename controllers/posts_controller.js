@@ -18,10 +18,8 @@ module.exports.create=async function(req,res){
 module.exports.destroy=async function(req,res){
     try{
         const post= await Post.findById( req.params.id);
-        console.log(req.user.id);
-        console.log(post.user);
-        if(post.user == req.user._id){
-            post.remove();
+        if (post.user == req.user.id){
+            post.deleteOne();
             Comment.deleteMany({post:req.params.id});
             return res.redirect('back');
         }else{

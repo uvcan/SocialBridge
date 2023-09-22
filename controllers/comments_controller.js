@@ -30,7 +30,7 @@ module.exports.destroy=async function(req, res){
     const comment=Comment.findById(req.params.id);
     if(comment.user == req.user.id){
       const postId=comment.post;
-      comment.remove();
+      comment.deleteOne();
       Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}});
       return res.redirect('back');
 
