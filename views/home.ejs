@@ -6,7 +6,7 @@
     <h4>Post</h4>
     <%if(locals.user){%>
     <form action="/posts/create" method="post">
-        <textarea name="content"  cols="30" rows="5" placeholder="Type her ..." required></textarea>
+        <textarea name="content"  cols="30" rows="3" placeholder="Type her ..." required></textarea>
         <input type="submit" value="Post">
     </form>
     <%}%>
@@ -14,41 +14,51 @@
         <ul>
             <% for(post of post){ %>
                 
-            <li>
-                <p>
-                    <%= post.content %>
-                    <br>
-                    <small>
-                        <%= post.user.name %>
-                    </small>
-                </p>
-                <div>
-                    <%if(locals.user){%>
-                        <form action="/comments/create" method="post">
-                            <input type="text" name="content" placeholder="Type hear to add comment ..." required>
-                            <input type="hidden" name="post" value="<%=post._id%>">
-                            <input type="submit" value="Add">
-                        </form>
-                    <%}%> 
+                <li>
+                    <p>
+                        <% if(locals.user && locals.user.id == post.user.id){%>
+                            <small>
+                                <a href="/posts/destroy/<%=post.id%>">X</a>
+                            </small>
+                        <% } %>
+                            <%= post.content %>
+                            <br>
+                            <small>
+                                <%= post.user.name %>
+                            </small>
+                    </p>
                     <div>
-                        <ul>
-                            <%for(comments of post.comments) { %>
+                        <%if(locals.user){%>
+                            <form action="/comments/create" method="post">
+                                <input type="text" name="content" placeholder="Type hear to add comment ..." required>
+                                <input type="hidden" name="post" value="<%=post._id%>">
+                                <input type="submit" value="Add">
+                            </form>
+                        <% } %> 
+                        <div>
+                            <ul>
+                                <% for(comment of post.comments) { %>
 
-                                <p>
-                                    <%=comments.content%>
-                                    <br>
-                                    <small>
-                                        <%=comments.user.name%>
-                                    </small>
-                                </p>
-                                
-                            <%}%>    
-                        </ul>
-                    </div>   
-                </div>
-            </li>
+                                    <p>
+                                    <% if(locals.user && locals.user.id == comment.user.id){%>
+                                            <small>
+                                                <a href="/comments/destroy/<%=post.id %>">X</a>
+                                            </small>
+                                    <% } %>
+                                        <%=comment.content%>
+                                        <br>
+                                        <small>
+                                            <%=comment.user.name%>
+                                        </small>
+                                    </p>
+                                    
+                                <% } %>    
+                            </ul>
+                        </div>   
+                    </div>
+                </li>
                 
-            <%} %>
+            <% } %>
         </ul>
         
     </div>
