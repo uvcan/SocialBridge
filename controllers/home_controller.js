@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User=require('../models/user');
 
 module.exports.home= async function(req,res){
      
@@ -14,10 +15,13 @@ module.exports.home= async function(req,res){
             }
         })
         .exec();
-
+        
+        const users = await User.find({}).exec();
+      
         return res.render('home', {
             title: "SocialBridge Home",
-            post: posts
+            post: posts,
+            all_users:users
         });
         
     }catch(err){

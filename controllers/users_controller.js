@@ -1,10 +1,23 @@
 const User =require('../models/user');
 
 //Rending the Profile page of the user
-module.exports.profile=function(req,res){
+module.exports.profile=async function(req,res){
+    const users=await User.findById(req.params.id);
     return res.render('user_profile',{
         title:"Profile",
+        profile_users:users
     });
+}
+
+
+module.exports.update=async function(req,res){
+    if(req.user.id == req.params.id){
+        const user=await User.findByIdAndUpdate(req.params.id,req.body);
+        user.save();
+        return res.redirect('back');
+    }else{
+        return res.status(404).send('Unautherized');
+    }
 }
 
 //Rendering the SighIn page of the user
