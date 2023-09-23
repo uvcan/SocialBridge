@@ -27,17 +27,23 @@ module.exports.create = async function (req, res) {
 
 module.exports.destroy=async function(req, res){
   try{
-    const comment=Comment.findById(req.params.id);
+    const comment= await Comment.findById(req.params.id);
     if(comment.user == req.user.id){
+      
       const postId=comment.post;
       comment.deleteOne();
       Post.findByIdAndUpdate(postId,{$pull:{comments:req.params.id}});
       return res.redirect('back');
 
+    }else{
+        return res.redirect('back');
+      }
+
   }
-  return res.redirect('back');
-  }catch(err){
-    console.log('Error in deleting the user ');
+ 
+  catch(err){
+    console.log('Error in deleting the user ',err);
+    return;
   }
   
 }

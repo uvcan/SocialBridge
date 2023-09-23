@@ -51,7 +51,7 @@ module.exports.create=async function(req,res){
 
         let user = await User.findOne({email:req.body.email});
         if (!user) {
-            const newUser = await User.create(req.body);
+            await User.create(req.body);
             return res.redirect('/users/sign-in');
           } else {
             return res.redirect('back');
@@ -59,7 +59,7 @@ module.exports.create=async function(req,res){
 
     }catch(err){
         console.error('Error in creating user:', err);
-        return res.redirect('back');
+        return ;
 
     }
 }

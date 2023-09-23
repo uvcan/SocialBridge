@@ -13,10 +13,9 @@ module.exports.home= async function(req,res){
             populate:{
                 path:'user'
             }
-        })
-        .exec();
+        });
         
-        const users = await User.find({}).exec();
+        const users = await User.find({});
       
         return res.render('home', {
             title: "SocialBridge Home",
@@ -26,6 +25,7 @@ module.exports.home= async function(req,res){
         
     }catch(err){
         console.error('Error in fetching posts', err);
+        return;
     }
   
 }
