@@ -10,7 +10,8 @@ const passport=require('passport');
 const passportLocal=require('./config/passport-local-strategy');
 const { sanitizeFilter } = require('mongoose');
 const MongoStore=require('connect-mongo');
-
+const flash=require('connect-flash');
+const customMware=require('./config/middleWare');
 
 
 app.use(express.urlencoded());
@@ -62,6 +63,8 @@ app.use(passport.session());
 
 
 app.use(passport.setAuthenticatedUser);
+app.use(flash());
+app.use(customMware.setFlash);
 
 //use express router which acs as a middleware
 app.use('/',require('./routes'));

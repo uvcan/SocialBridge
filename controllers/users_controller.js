@@ -22,6 +22,7 @@ module.exports.update=async function(req,res){
 
 //Rendering the SighIn page of the user
 module.exports.signIn=function(req,res){
+    
     if(req.isAuthenticated()){
         return res.redirect('/users/profile');
     }
@@ -67,13 +68,13 @@ module.exports.create=async function(req,res){
 
 
 module.exports.createSession=function(req,res){
-   return res.redirect('/');
+    req.flash('success','log in successfully');
+    return res.redirect('/');
 }
 
-module.exports.destroySession=function(req,res){
-    req.logout(function(err){
-        console.log('Error in logging out');
-    });
+module.exports.destroySession=async function(req,res){
+    await req.logout(function(){});
+    req.flash('success','logged out !!');
 
     return res.redirect('/');
 }
