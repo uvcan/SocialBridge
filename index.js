@@ -25,6 +25,10 @@ app.use(express.static('./assets'));
 //telling the app to use layouts
 app.use(expressLayouts);
 
+
+//Make the uploads path avaliable to the brouser
+app.use('/uploads',express.static(__dirname + '/uploads'));
+
 //Extract styles and scripts for layots for sub pages 
 app.set('layout extractStyles',true);
 app.set('layout extractScripts',true);

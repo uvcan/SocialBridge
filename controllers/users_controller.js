@@ -1,4 +1,7 @@
 const User =require('../models/user');
+const fs=require('fs');
+const path=require('path');
+
 
 //Rending the Profile page of the user
 module.exports.profile=async function(req,res){
@@ -12,9 +15,29 @@ module.exports.profile=async function(req,res){
 
 module.exports.update=async function(req,res){
     if(req.user.id == req.params.id){
-        const user=await User.findByIdAndUpdate(req.params.id,req.body);
-        user.save();
-        return res.redirect('back');
+        try{
+            let user=await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+                
+                if(err){console.log('error in updating the profile using multer')}
+
+                user.name=req.body.name;
+                user.email=req.body.email;
+                if(req.file){
+
+                    if(user.avatar){
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
+
+                    //this is saving the path of uploaded file into the avatar
+                    user.avatar=User.avatartPath + '/' + req.file.filename ;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+        }catch(err){
+            console.log('error in finding the user using multer',err);
+        }
     }else{
         return res.status(404).send('Unautherized');
     }
