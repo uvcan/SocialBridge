@@ -13,6 +13,7 @@ const { sanitizeFilter } = require('mongoose');
 const MongoStore=require('connect-mongo');
 const flash=require('connect-flash');
 const customMware=require('./config/middleWare');
+const passportGoogleAuth=require('./config/passport-google-oath2-strategy');
 
 
 app.use(express.urlencoded());
