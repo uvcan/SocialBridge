@@ -1,12 +1,13 @@
 const Comment=require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer=require('../mailers/comments_mailer');
 
 module.exports.create = async function (req, res) {
   try {
     const post = await Post.findById(req.body.post);
 
     if (post) {
-      const comment = await Comment.create({
+      let comment = await Comment.create({
         content: req.body.content,
         post: req.body.post,
         user: req.user._id,
@@ -14,6 +15,11 @@ module.exports.create = async function (req, res) {
       
       post.comments.push(comment);
       await post.save();
+       
+      //  await comment.populate('user', 'name email').exec();
+       comment = await comment.populate('user', 'name email');
+       console.log(comment.email);
+       commentsMailer.newComment(comment);
 
       return res.redirect('/');
     }
